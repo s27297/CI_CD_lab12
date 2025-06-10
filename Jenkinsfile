@@ -21,12 +21,16 @@ pipeline{
         stage('parallel'){
             parallel{
                 stage('Testing'){
-                    sh '''
-                    npm test
-                    '''
+                    script{
+                        sh '''
+                        npm test
+                        '''
+                        }
                 }
                 stage('Coverage'){
-                    echo "cat"
+                    script{
+                        echo "cat"
+                    }
                 }
             }
         }
@@ -51,14 +55,14 @@ pipeline{
                 }
             }
         }
-        stage('Push'){
-            steps{
-                unstash customImage
-                customImage.push()
-                customImage.push('latest')
-                echo "INFO: Obraz został pomyślnie wypchnięty."
-            }
-        }
+//         stage('Push'){
+//             steps{
+//                 unstash customImage
+//                 customImage.push()
+//                 customImage.push('latest')
+//                 echo "INFO: Obraz został pomyślnie wypchnięty."
+//             }
+//         }
         stage('Post'){
             
         }
