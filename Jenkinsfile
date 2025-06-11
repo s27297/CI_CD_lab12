@@ -31,7 +31,7 @@ pipeline{
                 }
                 stage('Coverage'){
                     steps{
-                       sh 'jest --coverage'
+                       sh 'npm run coverage'
 
                     }
                 }
