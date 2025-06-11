@@ -61,7 +61,7 @@ pipeline{
             steps {
                 script {
                     def imageTag = env.BUILD_ID
-                    def imageName = "anakondik/Jenkins-lab12:${imageTag}"
+                    def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     docker.withRegistry('', 'docker-hub') {
                         def img = docker.image(imageName)
                         img.push()
