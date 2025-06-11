@@ -28,7 +28,7 @@ pipeline{
                     steps{
                         script{
                             sh '''
-                            npm test
+                            npm run test
                             '''
                         }
                     }
@@ -44,10 +44,9 @@ pipeline{
         stage('Archive'){
              steps {
                 script {
-                    echo '🗄 Archiwizacja artefaktów...'
-//                     archiveArtifacts artifacts: "app-${BUILD_ID}.jar,${REPORT_DIR}/*.xml", fingerprint: true
-
-                    archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true}
+                     echo '🗄 Archiwizacja artefaktów...'
+                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
+                     junit "${REPORT_DIR}/*.xml"
              }
         }
         stage('Build'){
