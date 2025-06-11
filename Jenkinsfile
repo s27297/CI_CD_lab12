@@ -15,6 +15,13 @@ pipeline{
                   git url: 'https://github.com/s27297/CI_CD_lab12', branch: 'main'
            }
         }
+        stage("dependences"){
+            steps{
+                script{
+                    sh 'npm ci'
+                }
+            }
+        }
         stage('parallel'){
             parallel{
                 stage('Testing'){
