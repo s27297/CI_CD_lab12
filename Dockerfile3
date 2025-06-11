@@ -1,0 +1,24 @@
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Zainstaluj potrzebne pakiety
+RUN apt-get update && apt-get install -y \
+    docker.io \
+    nodejs \
+    npm \
+    git \
+    curl \
+    sudo \
+ && apt-get clean
+
+# Zainstaluj jest globalnie
+RUN npm install -g jest
+
+# Dodaj użytkownika Jenkins do grupy docker (ważne!)
+RUN usermod -aG docker jenkins
+
+# Przełącz się z powrotem na użytkownika jenkins
+USER jenkins
+
+#docker run -d -p 8080:8080 -p 50000:50000 -v D:/studia/jenkins_home/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -u root  --name jenkins2 custom-jenkins
