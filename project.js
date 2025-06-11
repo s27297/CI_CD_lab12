@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const [add,razy]=require('./functions.js')
 
 express=require('express')

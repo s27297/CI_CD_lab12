@@ -52,7 +52,7 @@ pipeline{
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     def img = docker.build(imageName)
-                    echo "✅ Docker image built: ${img.id}"
+                    echo "Docker image built: ${img.id}"
                 }
             }
         }
@@ -66,16 +66,28 @@ pipeline{
                         def img = docker.image(imageName)
                         img.push()
                         img.push('latest')
-                        echo "✅ Docker image pushed: ${imageName}"
+                        echo " Docker image pushed: ${imageName}"
                     }
                 }
             }
         }
 
     }
-    post{
-        always{
-            echo "Post"
+    post {
+            always {
+                script {
+                    echo ' Czyszczenie po pipeline...'
+
+                    try {
+                        sh "docker rmi ${env.IMAGE_NAME} || true"
+                    } catch (err) {
+                        echo "Nie udało się usunąć obrazu lokalnego: ${err}"
+                    }
+
+                    echo currentBuild.currentResult == 'SUCCESS'
+                        ? ' Pipeline zakończony sukcesem.'
+                        : ' Pipeline zakończony niepowodzeniem.'
+                }
+            }
         }
-    }
 }
