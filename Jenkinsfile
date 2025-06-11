@@ -31,7 +31,7 @@ pipeline{
                 }
                 stage('Coverage'){
                     steps{
-                       echo "cat"
+                       jest --coverage
 
                     }
                 }
@@ -43,39 +43,40 @@ pipeline{
                     echo '🗄 Archiwizacja artefaktów...'
                     ls
 //                     archiveArtifacts artifacts: "app-${BUILD_ID}.jar,${REPORT_DIR}/*.xml", fingerprint: true
-                }
+
+                    archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true}
              }
         }
         stage('Build'){
             steps{
                 script{
                     def imageTag = env.BUILD_ID
-                    def fullImageName = "anakondik/Jenkins-lab11:${imageTag}"
-                    def registryCredentialId = 'docker-hub'
-                    def registryUrl = ''
-                    docker.withRegistry(registryUrl, registryCredentialId) {
-                        def customImage = docker.build("anakondik/Jenkins-lab12:${env.BUILD_ID}")
-                        echo "INFO: Obraz Docker zbudowany pomyślnie: ${customImage.id}"
-                        stash customImage
+                    def imageName = "anakondik/Jenkins-lab12:${imageTag}"
+                    docker.withRegistry('', 'docker-hub') {
+                        def img = docker.build(imageName)
+                        echo "INFO: Docker image built: ${img.id}"
                     }
                 }
             }
         }
-//         stage('Push'){
-//             steps{
-//                 unstash customImage
-//                 customImage.push()
-//                 customImage.push('latest')
-//                 echo "INFO: Obraz został pomyślnie wypchnięty."
-//             }
-//         }
-        stage('Post'){
-            steps{
-                always{
-                    echo "Post"
+        stage('Push') {
+            steps {
+                script {
+                    def imageTag = env.BUILD_ID
+                    def imageName = "anakondik/Jenkins-lab12:${imageTag}"
+                    docker.withRegistry('', 'docker-hub') {
+                        def img = docker.image(imageName)
+                        img.push()
+                        img.push('latest')
+                        echo "INFO: Docker image pushed."
+                    }
                 }
             }
         }
-
+    }
+    post{
+        always{
+            echo "Post"
+        }
     }
 }
