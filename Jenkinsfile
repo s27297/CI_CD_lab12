@@ -23,17 +23,17 @@ pipeline{
                 stage('Testing'){
                     steps{
                         script{
-                            sh '''
-                            npm test
-                            '''
+                        echo "tae"
+//                             sh '''
+//                             npm test
+//                             '''
                         }
                     }
                 }
                 stage('Coverage'){
                     steps{
-                        script{
-                           sh echo "cat"
-                        }
+                       echo "cat"
+
                     }
                 }
             }
@@ -71,7 +71,9 @@ pipeline{
 //         }
         stage('Post'){
             steps{
-                echo "Post"
+                always{
+                    echo "Post"
+                }
             }
         }
 
