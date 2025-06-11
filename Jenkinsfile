@@ -55,7 +55,7 @@ pipeline{
                 script{
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/Jenkins-lab12:${imageTag}"
-                    docker.withRegistry('', 'docker-hub') {
+                    docker.withRegistry('', 'docker_credentionals') {
                         def img = docker.build(imageName)
                         echo "INFO: Docker image built: ${img.id}"
                     }
