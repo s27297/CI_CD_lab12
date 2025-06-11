@@ -1,9 +1,5 @@
 pipeline{
-     agent {
-        docker {
-            image 'node:18'  // or another Node.js version you need
-        }
-     }
+     agent any
 
     environment {
 //         API_KEY     = credentials('api-key-id')
