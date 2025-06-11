@@ -31,7 +31,7 @@ pipeline{
                 }
                 stage('Coverage'){
                     steps{
-                       jest --coverage
+                       sh 'jest --coverage'
 
                     }
                 }
