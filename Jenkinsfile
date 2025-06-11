@@ -62,7 +62,7 @@ pipeline{
                 script {
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
-                    docker.withRegistry('', 'docker-hub') {
+                    docker.withRegistry('', 'docker_credentionals') {
                         def img = docker.image(imageName)
                         img.push()
                         img.push('latest')
