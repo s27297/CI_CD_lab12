@@ -21,15 +21,19 @@ pipeline{
         stage('parallel'){
             parallel{
                 stage('Testing'){
-                    script{
-                        sh '''
-                        npm test
-                        '''
+                    steps{
+                        script{
+                            sh '''
+                            npm test
+                            '''
                         }
+                    }
                 }
                 stage('Coverage'){
-                    script{
-                        echo "cat"
+                    steps{
+                        script{
+                           sh echo "cat"
+                        }
                     }
                 }
             }
