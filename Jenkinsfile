@@ -47,15 +47,17 @@ pipeline{
              }
         }
         stage('Build'){
-            script{
-                def imageTag = env.BUILD_ID
-                def fullImageName = "anakondik/Jenkins-lab11:${imageTag}"
-                def registryCredentialId = 'docker-hub'
-                def registryUrl = ''
-                docker.withRegistry(registryUrl, registryCredentialId) {
-                    def customImage = docker.build("anakondik/Jenkins-lab12:${env.BUILD_ID}")
-                    echo "INFO: Obraz Docker zbudowany pomyślnie: ${customImage.id}"
-                    stash customImage
+            steps{
+                script{
+                    def imageTag = env.BUILD_ID
+                    def fullImageName = "anakondik/Jenkins-lab11:${imageTag}"
+                    def registryCredentialId = 'docker-hub'
+                    def registryUrl = ''
+                    docker.withRegistry(registryUrl, registryCredentialId) {
+                        def customImage = docker.build("anakondik/Jenkins-lab12:${env.BUILD_ID}")
+                        echo "INFO: Obraz Docker zbudowany pomyślnie: ${customImage.id}"
+                        stash customImage
+                    }
                 }
             }
         }
@@ -68,7 +70,9 @@ pipeline{
 //             }
 //         }
         stage('Post'){
-            
+            steps{
+                echo "Post"
+            }
         }
 
     }
