@@ -50,7 +50,7 @@ pipeline{
             steps {
                 script {
                     def imageTag = env.BUILD_ID
-                    def imageName = "anakondik/Jenkins-lab12:${imageTag}"
+                    def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     def img = docker.build(imageName)
                     echo "✅ Docker image built: ${img.id}"
                 }
