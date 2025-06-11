@@ -1,34 +1,20 @@
-# ---------- Stage 1: Build ----------
-FROM node:20-alpine AS build
+# Użyj odpowiedniej wersji Node.js
+FROM node:18
 
+# Katalog roboczy
 WORKDIR /app
 
-# Only copy package files first for better caching
-COPY package.json package-lock.json ./
+# Skopiuj zależności
+COPY package*.json ./
 
-# Install only production dependencies
-RUN npm ci --omit=dev && npm cache clean --force
+# Instalacja zależności produkcyjnych i deweloperskich
+RUN npm install
 
-# Copy only the app source you need (not .git, Dockerfile, etc.)
-COPY ./ ./api
+# Skopiuj cały kod źródłowy
+COPY . .
 
-# ---------- Stage 2: Final Runtime ----------
-FROM node:10-alpine
-
-LABEL author="Artem Stakhovski s27297@pjwstk.eu.pl"
-LABEL version="1.0.3"
-LABEL date_creation="04.04.2025"
-LABEL opis="to jest backend applikacji"
-
-WORKDIR /app
-
-# Copy only the final app code and node_modules
-COPY --from=build /app/api ./
-COPY --from=build /app/node_modules ./node_modules
-
-# Add healthcheck and expose only the needed port
-HEALTHCHECK CMD wget -q --spider http://localhost:5000/health || exit 1
-
+# Wystaw port aplikacji (jeśli używasz Express)
 EXPOSE 5000
 
-CMD ["node", "./project.js"]
+# Domyślne polecenie
+CMD ["node", "project.js"]
