@@ -23,10 +23,9 @@ pipeline{
                 stage('Testing'){
                     steps{
                         script{
-                        echo "tae"
-//                             sh '''
-//                             npm test
-//                             '''
+                            sh '''
+                            npm test
+                            '''
                         }
                     }
                 }
@@ -42,7 +41,8 @@ pipeline{
              steps {
                 script {
                     echo '🗄 Archiwizacja artefaktów...'
-                    archiveArtifacts artifacts: "app-${BUILD_ID}.jar,${REPORT_DIR}/*.xml", fingerprint: true
+                    ls
+//                     archiveArtifacts artifacts: "app-${BUILD_ID}.jar,${REPORT_DIR}/*.xml", fingerprint: true
                 }
              }
         }
