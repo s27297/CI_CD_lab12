@@ -47,6 +47,7 @@ pipeline{
                      echo '🗄 Archiwizacja artefaktów...'
                      archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
                      junit "${REPORT_DIR}/*.xml"
+                     }
              }
         }
         stage('Build'){
