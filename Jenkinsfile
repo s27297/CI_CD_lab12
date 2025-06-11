@@ -1,14 +1,14 @@
 pipeline{
-     agent {
-        docker {
-            image 'node:18'  // or another Node.js version you need
-        }
-     }
-//     agent{
-//         docker{
-//             image 'anakondik/custom-jenkins-build-agent:1.0.1' args '-u root'
+//      agent {
+//         docker {
+//             image 'node:18'  // or another Node.js version you need
 //         }
-//     }
+//      }
+    agent{
+        docker{
+            image 'anakondik/custom-jenkins-build-agent:1.0.1' args '-u root'
+        }
+    }
     environment {
 //         API_KEY     = credentials('api-key-id')
         TARGET_DIR  = 'lib/*'
