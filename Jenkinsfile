@@ -45,7 +45,6 @@ pipeline{
              steps {
                 script {
                     echo '🗄 Archiwizacja artefaktów...'
-                    sh ls
 //                     archiveArtifacts artifacts: "app-${BUILD_ID}.jar,${REPORT_DIR}/*.xml", fingerprint: true
 
                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true}
