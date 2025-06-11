@@ -50,18 +50,17 @@ pipeline{
                      }
              }
         }
-        stage('Build'){
-            steps{
-                script{
+        stage('Build') {
+            steps {
+                script {
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/Jenkins-lab12:${imageTag}"
-                    docker.withRegistry('', 'docker_credentionals') {
-                        def img = docker.build(imageName)
-                        echo "INFO: Docker image built: ${img.id}"
-                    }
+                    def img = docker.build(imageName)
+                    echo "✅ Docker image built: ${img.id}"
                 }
             }
         }
+
         stage('Push') {
             steps {
                 script {
@@ -71,11 +70,12 @@ pipeline{
                         def img = docker.image(imageName)
                         img.push()
                         img.push('latest')
-                        echo "INFO: Docker image pushed."
+                        echo "✅ Docker image pushed: ${imageName}"
                     }
                 }
             }
         }
+
     }
     post{
         always{
