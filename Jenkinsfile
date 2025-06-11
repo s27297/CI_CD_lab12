@@ -21,7 +21,7 @@ pipeline{
                     steps{
                         script{
                             sh '''
-                            npm test
+                            npx jest
                             '''
                         }
                     }
