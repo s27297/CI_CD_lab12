@@ -7,6 +7,7 @@ app = express()
 app.get('/api/status', (req, res)=> {
     let version1=process.version
     let status1="health"
+    console.log(version1)
     res.json({'version': version1,'status':status1})
 })
 
