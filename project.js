@@ -1,4 +1,4 @@
-const [add,razy]=require('./functions.js')
+const [add,razy,divide]=require('./functions.js')
 
 express=require('express')
 

@@ -6,4 +6,7 @@ function razy(a,b){
     return a * b;
 }
 
-module.exports=[add,razy]
+function divide(a,b) {
+    return a / b;
+}
+module.exports=[add,razy,divide]
