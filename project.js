@@ -1,5 +1,5 @@
 const [add,razy,divide]=require('./functions.js')
-
+let sonarqube=require('sonarqube-scanner')
 express=require('express')
 
 app = express()
