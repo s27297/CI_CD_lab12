@@ -1,4 +1,7 @@
 pipeline{
+    triggers{
+        polSCM('* * * * *')
+    }
      agent any
 
     environment {
@@ -74,20 +77,20 @@ pipeline{
 
     }
     post {
-            always {
-                script {
-                    echo ' Czyszczenie po pipeline...'
+        always {
+            script {
+                echo ' Czyszczenie po pipeline...'
 
-                    try {
-                        sh "docker rmi ${env.IMAGE_NAME} || true"
-                    } catch (err) {
-                        echo "Nie udało się usunąć obrazu lokalnego: ${err}"
-                    }
-
-                    echo currentBuild.currentResult == 'SUCCESS'
-                        ? ' Pipeline zakończony sukcesem.'
-                        : ' Pipeline zakończony niepowodzeniem.'
+                try {
+                    sh "docker rmi ${env.IMAGE_NAME} || true"
+                } catch (err) {
+                    echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
+
+                echo currentBuild.currentResult == 'SUCCESS'
+                    ? ' Pipeline zakończony sukcesem.'
+                    : ' Pipeline zakończony niepowodzeniem.'
             }
         }
+    }
 }
