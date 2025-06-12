@@ -28,7 +28,7 @@ pipeline{
             steps{
                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
                 {
-                 sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN'
+                 sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN -Dsonar.token=squ_4767e4aaeb4bb1ac81216fd024261b5821dd859c -Dsonar.host.url=http://sonar:9000 -Dsonar.sources=.'
 
                 }
             }
