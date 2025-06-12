@@ -1,7 +1,7 @@
 pipeline{
     triggers{
-//         pollSCM('* * * * *')
-        githubPush()
+        pollSCM('* * * * *')
+//         githubPush()
     }
      agent any
 
