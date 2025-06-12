@@ -28,7 +28,7 @@ pipeline{
             steps{
                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
                 {
-                sh 'npx sonar-scanner'
+                 sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN'
 
                 }
             }
