@@ -3,6 +3,9 @@ pipeline{
         pollSCM('* * * * *')
 //         githubPush()
     }
+    environment{
+        SONARQUBE_SERVER = 'CI_CD_lab12'
+    }
      agent any
 
     environment {
@@ -39,6 +42,11 @@ pipeline{
 
                     }
                 }
+            }
+        }
+        stage('SonarQube'){
+            steps{
+                sh 'npx sonar-scanner'
             }
         }
         stage('Archive'){
