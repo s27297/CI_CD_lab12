@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalacja zależności produkcyjnych i deweloperskich
-RUN npm install
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Skopiuj cały kod źródłowy
 COPY . .
