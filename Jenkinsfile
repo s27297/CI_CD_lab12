@@ -24,6 +24,15 @@ pipeline{
                 }
             }
         }
+         stage('SonarQube'){
+            steps{
+                withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
+                {
+                sh 'npx sonar-scanner'
+                
+                }
+            }
+        }
         stage('parallel'){
             parallel{
                 stage('Testing'){
@@ -43,11 +52,7 @@ pipeline{
                 }
             }
         }
-        stage('SonarQube'){
-            steps{
-                sh 'npx sonar-scanner'
-            }
-        }
+
         stage('Archive'){
              steps {
                 script {
