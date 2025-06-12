@@ -3,14 +3,13 @@ pipeline{
         pollSCM('* * * * *')
 //         githubPush()
     }
-    environment{
-        SONARQUBE_SERVER = 'CI_CD_lab12'
-    }
      agent any
 
     environment {
 //         API_KEY     = credentials('api-key-id')
+        SONARQUBE_SERVER = 'CI_CD_lab12'
         REPORT_DIR  = 'target/reports'
+        SONARQUBE_IN_JENKINS='SonarQube'
     }
     stages{
         stage('checkout'){
