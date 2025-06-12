@@ -29,7 +29,7 @@ pipeline{
                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
                 {
                 sh 'npx sonar-scanner'
-                
+
                 }
             }
         }
