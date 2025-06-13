@@ -14,29 +14,12 @@ pipeline{
     stages{
         stage('checkout'){
            steps{
-
-                        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                              echo "GIT_BRANCH: ${env.GIT_BRANCH}"
-//                          sh ' def qwer = env.GIT_BRANCH.replaceFirst(/^origin\//, '')'
-//                            echo qwer
+//                         echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+//                               echo "GIT_BRANCH: ${env.GIT_BRANCH}"
                   git url: 'https://github.com/s27297/CI_CD_lab12', branch: "main"
            }
         }
-//              stage('Pytanie'){
-//                   when {
-//                         expression {
-//                             return env.GIT_BRANCH?.endsWith('/main')
-//                         }
-//                         //sadas
-//                  }
-//
-//                  steps{
-//                      script {
-//                          def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
-//                          echo "Użytkownik zatwierdził kontynuację."
-//                      }
-//                  }
-//              }
+
         stage("dependences"){
             steps{
                 script{
@@ -49,11 +32,11 @@ pipeline{
             parallel{
 
                 stage('Testing'){
-                    when {
-                       expression {
-                           return env.GIT_BRANCH?.endsWith('/main')
-                       }
-                    }
+//                     when {
+//                        expression {
+//                            return env.GIT_BRANCH?.endsWith('/main')
+//                        }
+//                     }
                     steps{
                         script{
                             sh '''
@@ -63,11 +46,11 @@ pipeline{
                     }
                 }
                 stage('Coverage'){
-                     when {
-                           expression {
-                               return env.GIT_BRANCH?.endsWith('/main')
-                           }
-                    }
+//                      when {
+//                            expression {
+//                                return env.GIT_BRANCH?.endsWith('/main')
+//                            }
+//                     }
                     steps{
                         script{
                              sh 'cat package.json'
@@ -79,11 +62,11 @@ pipeline{
             }
         }
         stage('SonarQube'){
-                 when {
-                       expression {
-                           return env.GIT_BRANCH?.endsWith('/main')
-                       }
-                }
+//                  when {
+//                        expression {
+//                            return env.GIT_BRANCH?.endsWith('/main')
+//                        }
+//                 }
             steps{
                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
                 {
@@ -102,7 +85,7 @@ pipeline{
                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     def img = docker.build(imageName)
                     echo "Docker image built: ${img.id}"
-                    sh  'docker save -o ./target/reports/docker_archive.tar anakondik/jenkins-lab12'
+//                     sh  'docker save -o ./target/reports/docker_archive.tar anakondik/jenkins-lab12'
                 }
             }
         }
@@ -115,8 +98,8 @@ pipeline{
              steps {
                 script {
                      echo ' Archiwizacja artefaktów...'
-//                      archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
-                     archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
+                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
+//                      archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
 //                      junit "${REPORT_DIR}/*.tar"
                      }
              }
@@ -154,13 +137,13 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-                def status = currentBuild.currentResult ?: 'SUCCESS'
-                echo status
-                writeFile file: 'raport.txt', text: "Build status: ${status}\n"
-                archiveArtifacts artifacts: 'raport.txt', fingerprint: true
-//                 echo currentBuild.currentResult == 'SUCCESS'
-//                     ? ' Pipeline zakończony sukcesem.'
-//                     : ' Pipeline zakończony niepowodzeniem.'
+//                 def status = currentBuild.currentResult ?: 'SUCCESS'
+//                 echo status
+//                 writeFile file: 'raport.txt', text: "Build status: ${status}\n"
+//                 archiveArtifacts artifacts: 'raport.txt', fingerprint: true
+                echo currentBuild.currentResult == 'SUCCESS'
+                    ? ' Pipeline zakończony sukcesem.'
+                    : ' Pipeline zakończony niepowodzeniem.'
             }
         }
     }
