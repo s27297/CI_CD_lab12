@@ -49,6 +49,7 @@ pipeline{
                            }
                     }
                     steps{
+                    
                        sh 'npm run coverage'
 
                     }
@@ -78,6 +79,11 @@ pipeline{
             }
         }
          stage('Archive'){
+             when {
+                   expression {
+                       return env.GIT_BRANCH?.endsWith('/main')
+                   }
+            }
              steps {
                 script {
                      echo '🗄 Archiwizacja artefaktów...'
@@ -86,6 +92,15 @@ pipeline{
                      junit "${REPORT_DIR}/*.tar"
                      }
              }
+        }
+        stage('Pytanie'){
+
+            steps{
+                script {
+                    def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
+                    echo "Użytkownik zatwierdził kontynuację."
+                }
+            }
         }
 
 
