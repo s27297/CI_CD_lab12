@@ -22,21 +22,21 @@ pipeline{
                   git url: 'https://github.com/s27297/CI_CD_lab12', branch: "main"
            }
         }
-             stage('Pytanie'){
-                  when {
-                        expression {
-                            return env.GIT_BRANCH?.endsWith('/main')
-                        }
-                        //sadas
-                 }
-
-                 steps{
-                     script {
-                         def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
-                         echo "Użytkownik zatwierdził kontynuację."
-                     }
-                 }
-             }
+//              stage('Pytanie'){
+//                   when {
+//                         expression {
+//                             return env.GIT_BRANCH?.endsWith('/main')
+//                         }
+//                         //sadas
+//                  }
+//
+//                  steps{
+//                      script {
+//                          def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
+//                          echo "Użytkownik zatwierdził kontynuację."
+//                      }
+//                  }
+//              }
         stage("dependences"){
             steps{
                 script{
@@ -51,7 +51,7 @@ pipeline{
                 stage('Testing'){
                     when {
                        expression {
-                           return !env.GIT_BRANCH?.endsWith('/main')
+                           return env.GIT_BRANCH?.endsWith('/main')
                        }
                     }
                     steps{
@@ -65,7 +65,7 @@ pipeline{
                 stage('Coverage'){
                      when {
                            expression {
-                               return !env.GIT_BRANCH?.endsWith('/main')
+                               return env.GIT_BRANCH?.endsWith('/main')
                            }
                     }
                     steps{
