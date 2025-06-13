@@ -14,7 +14,7 @@ pipeline{
     stages{
         stage('checkout'){
            steps{
-                  git url: 'https://github.com/s27297/CI_CD_lab12', branch: 'main'
+                  git url: 'https://github.com/s27297/CI_CD_lab12', branch: "${env.GIT_BRANCH}"
            }
         }
              stage('Pytanie'){
@@ -101,14 +101,14 @@ pipeline{
             }
         }
          stage('Archive'){
-             when {
-                   expression {
-                       return env.GIT_BRANCH?.endsWith('/main')
-                   }
-            }
+//              when {
+//                    expression {
+//                        return env.GIT_BRANCH?.endsWith('/main')
+//                    }
+//             }
              steps {
                 script {
-                     echo '🗄 Archiwizacja artefaktów...'
+                     echo ' Archiwizacja artefaktów...'
 //                      archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
                      archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
 //                      junit "${REPORT_DIR}/*.tar"
