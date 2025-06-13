@@ -17,8 +17,8 @@ pipeline{
 
                         echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                               echo "GIT_BRANCH: ${env.GIT_BRANCH}"
-                         sh ' def qwer = env.GIT_BRANCH.replaceFirst(/^origin\//, '')'
-                           echo qwer
+//                          sh ' def qwer = env.GIT_BRANCH.replaceFirst(/^origin\//, '')'
+//                            echo qwer
                   git url: 'https://github.com/s27297/CI_CD_lab12', branch: "main"
            }
         }
