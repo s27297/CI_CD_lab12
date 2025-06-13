@@ -27,6 +27,7 @@ pipeline{
                         expression {
                             return env.GIT_BRANCH?.endsWith('/main')
                         }
+                        //sadas
                  }
 
                  steps{
@@ -80,7 +81,7 @@ pipeline{
         stage('SonarQube'){
                  when {
                        expression {
-                           return !env.GIT_BRANCH?.endsWith('/main')
+                           return env.GIT_BRANCH?.endsWith('/main')
                        }
                 }
             steps{
