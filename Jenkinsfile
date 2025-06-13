@@ -29,11 +29,11 @@ pipeline{
             parallel{
 
                 stage('Testing'){
-                    when {
-                       expression {
-                           return env.GIT_BRANCH?.endsWith('/main')
-                       }
-                    }
+//                     when {
+//                        expression {
+//                            return env.GIT_BRANCH?.endsWith('/main')
+//                        }
+//                     }
                     steps{
                         script{
                             sh '''
@@ -43,11 +43,11 @@ pipeline{
                     }
                 }
                 stage('Coverage'){
-                     when {
-                           expression {
-                               return env.GIT_BRANCH?.endsWith('/main')
-                           }
-                    }
+//                      when {
+//                            expression {
+//                                return env.GIT_BRANCH?.endsWith('/main')
+//                            }
+//                     }
                     steps{
 
                        sh 'npm run coverage'
