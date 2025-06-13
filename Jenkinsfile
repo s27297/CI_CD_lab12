@@ -17,6 +17,20 @@ pipeline{
                   git url: 'https://github.com/s27297/CI_CD_lab12', branch: 'main'
            }
         }
+             stage('Pytanie'){
+                  when {
+                        expression {
+                            return env.GIT_BRANCH?.endsWith('/main')
+                        }
+                 }
+
+                 steps{
+                     script {
+                         def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
+                         echo "Użytkownik zatwierdził kontynuację."
+                     }
+                 }
+             }
         stage("dependences"){
             steps{
                 script{
@@ -58,15 +72,21 @@ pipeline{
                 }
             }
         }
-//         stage('SonarQube'){
-//             steps{
-//                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
-//                 {
-//                  sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN  -Dsonar.host.url=http://sonarqube:9000 -Dsonar.sources=.'
-//
-//                 }
-//             }
-//         }
+        stage('SonarQube'){
+                 when {
+                       expression {
+                           return !env.GIT_BRANCH?.endsWith('/main')
+                       }
+                }
+            steps{
+                withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
+                {
+                 sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN  -Dsonar.host.url=http://sonarqube:9000 -Dsonar.sources=.'
+
+                }
+            }
+        }
+
 
          stage('Build') {
 
@@ -94,20 +114,6 @@ pipeline{
 //                      junit "${REPORT_DIR}/*.tar"
                      }
              }
-        }
-        stage('Pytanie'){
-             when {
-                   expression {
-                       return env.GIT_BRANCH?.endsWith('/main')
-                   }
-            }
-
-            steps{
-                script {
-                    def userInput = input message: 'Czy chcesz kontynuować wdrożenie?', ok: 'Tak'
-                    echo "Użytkownik zatwierdził kontynuację."
-                }
-            }
         }
 
 
