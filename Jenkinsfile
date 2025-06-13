@@ -29,11 +29,11 @@ pipeline{
             parallel{
 
                 stage('Testing'){
-//                     when {
-//                        expression {
-//                            return env.GIT_BRANCH?.endsWith('/main')
-//                        }
-//                     }
+                    when {
+                       expression {
+                           return !env.GIT_BRANCH?.endsWith('/main')
+                       }
+                    }
                     steps{
                         script{
                             sh '''
@@ -43,11 +43,11 @@ pipeline{
                     }
                 }
                 stage('Coverage'){
-//                      when {
-//                            expression {
-//                                return env.GIT_BRANCH?.endsWith('/main')
-//                            }
-//                     }
+                     when {
+                           expression {
+                               return !env.GIT_BRANCH?.endsWith('/main')
+                           }
+                    }
                     steps{
                         script{
                              sh 'cat package.json'
@@ -112,6 +112,11 @@ pipeline{
 
 
         stage('Push') {
+             when {
+                   expression {
+                       return env.GIT_BRANCH?.endsWith('/main')
+                   }
+            }
             steps {
                 script {
                     def imageTag = env.BUILD_ID
@@ -137,8 +142,9 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-//                 sh "echo ${currentBuild.currentResult} >> ./koniec.txt"
-//                    archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
+                def status = currentBuild.currentResult ?: 'SUCCESS'
+                               writeFile file: 'raport.txt', text: "Build status: ${status}\n"
+                               archiveArtifacts artifacts: 'raport.txt', fingerprint: true
 //                 echo currentBuild.currentResult == 'SUCCESS'
 //                     ? ' Pipeline zakończony sukcesem.'
 //                     : ' Pipeline zakończony niepowodzeniem.'
