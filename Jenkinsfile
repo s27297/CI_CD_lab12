@@ -66,18 +66,14 @@ pipeline{
 //         }
 
          stage('Build') {
-             when {
-                   expression {
-                       return env.GIT_BRANCH?.endsWith('/main')
-                   }
-            }
+
             steps {
                 script {
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     def img = docker.build(imageName)
                     echo "Docker image built: ${img.id}"
-                    docker save -o ./target/reports/docker_archive.tar anakondik/jenkins-lab12
+                    sh  'docker save -o ./target/reports/docker_archive.tar anakondik/jenkins-lab12'
                 }
             }
         }
