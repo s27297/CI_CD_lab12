@@ -143,8 +143,9 @@ pipeline{
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
                 def status = currentBuild.currentResult ?: 'SUCCESS'
-                               writeFile file: 'raport.txt', text: "Build status: ${status}\n"
-                               archiveArtifacts artifacts: 'raport.txt', fingerprint: true
+                echo status
+                writeFile file: 'raport.txt', text: "Build status: ${status}\n"
+                archiveArtifacts artifacts: 'raport.txt', fingerprint: true
 //                 echo currentBuild.currentResult == 'SUCCESS'
 //                     ? ' Pipeline zakończony sukcesem.'
 //                     : ' Pipeline zakończony niepowodzeniem.'
