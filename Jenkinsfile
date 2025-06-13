@@ -50,7 +50,7 @@ pipeline{
 //                     }
                     steps{
                         script{
-                             sh 'pwd && ls -la'
+                             sh 'cat package.json'
                             sh 'npm run coverage'
                         }
 
