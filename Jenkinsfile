@@ -50,7 +50,7 @@ pipeline{
 //                     }
                     steps{
                         script{
-//                              sh 'pwd && ls -la'
+                             sh 'pwd && ls -la'
                             sh 'npm run coverage'
                         }
 
@@ -132,7 +132,7 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-                 echo ${currentBuild.currentResult} >> koniec.txt
+                sh "echo ${currentBuild.currentResult} >> koniec.txt"
                    archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
                 echo currentBuild.currentResult == 'SUCCESS'
                     ? ' Pipeline zakończony sukcesem.'
