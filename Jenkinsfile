@@ -14,7 +14,10 @@ pipeline{
     stages{
         stage('checkout'){
            steps{
-                  git url: 'https://github.com/s27297/CI_CD_lab12', branch: "main"
+                        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+                              echo "GIT_BRANCH: ${env.GIT_BRANCH}"
+                           def branch = env.GIT_BRANCH.replaceFirst(/^origin\//, '')
+                  git url: 'https://github.com/s27297/CI_CD_lab12', branch: "${branch}"
            }
         }
              stage('Pytanie'){
