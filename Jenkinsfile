@@ -132,7 +132,7 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-                 echo currentBuild.currentResult >> koniec.txt
+                 echo ${currentBuild.currentResult} >> koniec.txt
                    archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
                 echo currentBuild.currentResult == 'SUCCESS'
                     ? ' Pipeline zakończony sukcesem.'
