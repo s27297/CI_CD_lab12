@@ -14,7 +14,7 @@ pipeline{
     stages{
         stage('checkout'){
            steps{
-                  git url: 'https://github.com/s27297/CI_CD_lab12', branch:"*/main"
+                  git url: 'https://github.com/s27297/CI_CD_lab12', branch:'origin/main'
            }
         }
         stage("dependences"){
