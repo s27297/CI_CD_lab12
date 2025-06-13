@@ -27,12 +27,13 @@ pipeline{
 
         stage('parallel'){
             parallel{
-             when {
-               expression {
-                   return !env.GIT_BRANCH?.endsWith('/main')
-               }
-            }
+
                 stage('Testing'){
+                    when {
+                       expression {
+                           return !env.GIT_BRANCH?.endsWith('/main')
+                       }
+                    }
                     steps{
                         script{
                             sh '''
@@ -42,6 +43,11 @@ pipeline{
                     }
                 }
                 stage('Coverage'){
+                     when {
+                           expression {
+                               return !env.GIT_BRANCH?.endsWith('/main')
+                           }
+                    }
                     steps{
                        sh 'npm run coverage'
 
@@ -58,40 +64,44 @@ pipeline{
 //                 }
 //             }
 //         }
-        stage('Archive'){
-             steps {
-                script {
-                     echo '🗄 Archiwizacja artefaktów...'
-                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
-                     junit "${REPORT_DIR}/*.xml"
-                     }
-             }
-        }
-        stage('Build') {
+
+         stage('Build') {
             steps {
                 script {
                     def imageTag = env.BUILD_ID
                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
                     def img = docker.build(imageName)
                     echo "Docker image built: ${img.id}"
+                    docker save -o ./target/reports/docker_archive.tar anakondik/jenkins-lab12
                 }
             }
+        }
+         stage('Archive'){
+             steps {
+                script {
+                     echo '🗄 Archiwizacja artefaktów...'
+                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
+                     archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
+                     junit "${REPORT_DIR}/*.xml"
+                     }
+             }
         }
 
-        stage('Push') {
-            steps {
-                script {
-                    def imageTag = env.BUILD_ID
-                    def imageName = "anakondik/jenkins-lab12:${imageTag}"
-                    docker.withRegistry('', 'docker_credentionals') {
-                        def img = docker.image(imageName)
-                        img.push()
-                        img.push('latest')
-                        echo " Docker image pushed: ${imageName}"
-                    }
-                }
-            }
-        }
+
+//         stage('Push') {
+//             steps {
+//                 script {
+//                     def imageTag = env.BUILD_ID
+//                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
+//                     docker.withRegistry('', 'docker_credentionals') {
+//                         def img = docker.image(imageName)
+//                         img.push()
+//                         img.push('latest')
+//                         echo " Docker image pushed: ${imageName}"
+//                     }
+//                 }
+//             }
+//         }
 
     }
     post {
