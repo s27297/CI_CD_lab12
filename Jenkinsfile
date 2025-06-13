@@ -50,7 +50,7 @@ pipeline{
 //                     }
                     steps{
                         script{
-                             sh 'pwd && ls -la'
+//                              sh 'pwd && ls -la'
                             sh 'npm run coverage'
                         }
 
