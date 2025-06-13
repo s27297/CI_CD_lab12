@@ -96,6 +96,11 @@ pipeline{
              }
         }
         stage('Pytanie'){
+             when {
+                   expression {
+                       return env.GIT_BRANCH?.endsWith('/main')
+                   }
+            }
 
             steps{
                 script {
@@ -106,20 +111,20 @@ pipeline{
         }
 
 
-//         stage('Push') {
-//             steps {
-//                 script {
-//                     def imageTag = env.BUILD_ID
-//                     def imageName = "anakondik/jenkins-lab12:${imageTag}"
-//                     docker.withRegistry('', 'docker_credentionals') {
-//                         def img = docker.image(imageName)
-//                         img.push()
-//                         img.push('latest')
-//                         echo " Docker image pushed: ${imageName}"
-//                     }
-//                 }
-//             }
-//         }
+        stage('Push') {
+            steps {
+                script {
+                    def imageTag = env.BUILD_ID
+                    def imageName = "anakondik/jenkins-lab12:${imageTag}"
+                    docker.withRegistry('', 'docker_credentionals') {
+                        def img = docker.image(imageName)
+                        img.push()
+                        img.push('latest')
+                        echo " Docker image pushed: ${imageName}"
+                    }
+                }
+            }
+        }
 
     }
     post {
@@ -132,8 +137,8 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-                sh "echo ${currentBuild.currentResult} >> ./koniec.txt"
-                   archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
+//                 sh "echo ${currentBuild.currentResult} >> ./koniec.txt"
+//                    archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
 //                 echo currentBuild.currentResult == 'SUCCESS'
 //                     ? ' Pipeline zakończony sukcesem.'
 //                     : ' Pipeline zakończony niepowodzeniem.'
