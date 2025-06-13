@@ -49,8 +49,10 @@ pipeline{
 //                            }
 //                     }
                     steps{
-                        sh 'pwd && ls -la'
-                       sh 'npm run coverage'
+                        script{
+                             sh 'pwd && ls -la'
+                            sh 'npm run coverage'
+                        }
 
                     }
                 }
