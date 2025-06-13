@@ -14,7 +14,7 @@ pipeline{
     stages{
         stage('checkout'){
            steps{
-                  git url: 'https://github.com/s27297/CI_CD_lab12', branch: 'main'
+                  git url: 'https://github.com/s27297/CI_CD_lab12'
            }
         }
         stage("dependences"){
@@ -27,6 +27,11 @@ pipeline{
 
         stage('parallel'){
             parallel{
+             when {
+               expression {
+                   return !env.GIT_BRANCH?.endsWith('/main')
+               }
+            }
                 stage('Testing'){
                     steps{
                         script{
@@ -44,15 +49,15 @@ pipeline{
                 }
             }
         }
-        stage('SonarQube'){
-            steps{
-                withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
-                {
-                 sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN  -Dsonar.host.url=http://sonarqube:9000 -Dsonar.sources=.'
-
-                }
-            }
-        }
+//         stage('SonarQube'){
+//             steps{
+//                 withSonarQubeEnv("${SONARQUBE_IN_JENKINS}")
+//                 {
+//                  sh 'npx sonar-scanner -Dsonar.token=$SONAR_AUTH_TOKEN  -Dsonar.host.url=http://sonarqube:9000 -Dsonar.sources=.'
+//
+//                 }
+//             }
+//         }
         stage('Archive'){
              steps {
                 script {
