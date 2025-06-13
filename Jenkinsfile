@@ -80,7 +80,7 @@ pipeline{
              steps {
                 script {
                      echo '🗄 Archiwizacja artefaktów...'
-                     archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
+//                      archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
                      archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
                      junit "${REPORT_DIR}/*.xml"
                      }
