@@ -91,7 +91,7 @@ pipeline{
                      echo '🗄 Archiwizacja artefaktów...'
 //                      archiveArtifacts artifacts: "${REPORT_DIR}/*.xml", fingerprint: true
                      archiveArtifacts artifacts: "${REPORT_DIR}/*.tar", fingerprint: true
-                     junit "${REPORT_DIR}/*.tar"
+//                      junit "${REPORT_DIR}/*.tar"
                      }
              }
         }
@@ -132,8 +132,8 @@ pipeline{
                 } catch (err) {
                     echo "Nie udało się usunąć obrazu lokalnego: ${err}"
                 }
-//                 sh "echo ${currentBuild.currentResult} >> koniec.txt"
-//                    archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
+                sh "echo ${currentBuild.currentResult} >> ./koniec.txt"
+                   archiveArtifacts artifacts: ./koniec.txt, fingerprint: true
 //                 echo currentBuild.currentResult == 'SUCCESS'
 //                     ? ' Pipeline zakończony sukcesem.'
 //                     : ' Pipeline zakończony niepowodzeniem.'
