@@ -31,7 +31,7 @@ pipeline{
                 stage('Testing'){
                     when {
                        expression {
-                           return !env.GIT_BRANCH?.endsWith('/main')
+                           return env.GIT_BRANCH?.endsWith('/main')
                        }
                     }
                     steps{
@@ -45,7 +45,7 @@ pipeline{
                 stage('Coverage'){
                      when {
                            expression {
-                               return !env.GIT_BRANCH?.endsWith('/main')
+                               return env.GIT_BRANCH?.endsWith('/main')
                            }
                     }
                     steps{
@@ -66,6 +66,11 @@ pipeline{
 //         }
 
          stage('Build') {
+             when {
+                   expression {
+                       return env.GIT_BRANCH?.endsWith('/main')
+                   }
+            }
             steps {
                 script {
                     def imageTag = env.BUILD_ID
